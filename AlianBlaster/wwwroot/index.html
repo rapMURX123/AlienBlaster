@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Alien Blaster</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <h1>👾 Alien Blaster</h1>
+    <canvas id="game" width="800" height="400"></canvas>
+    <div class="hud">
+        <span>Score: <span id="score">0</span></span>
+        <button id="submitBtn" onclick="submitScore()">💾 Score speichern</button>
+        <button id="retryBtn" onclick="restartGame()" style="display: none;">🔁 Nochmal spielen</button>
+        <button id="leaderbordBtn"onclick="window.location.href='leaderboard.html'">🏆 Leaderboard anzeigen</button>
+    </div>
+    <script src="js/game.js"></script>
+</body>
+</html>
