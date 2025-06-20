@@ -13,6 +13,14 @@ document.addEventListener("keydown", (e) => {
     if (e.key === " ") shoot();
 });
 
+// Touchsteuerung
+function moveUp() {
+    player.y = Math.max(0, player.y - 10);
+}
+function moveDown() {
+    player.y = Math.min(canvas.height - player.h, player.y + 10);
+}
+
 function shoot() {
     if (isGameOver) return;
     bullets.push({ x: player.x + player.w, y: player.y + player.h / 2 });
@@ -24,11 +32,9 @@ function spawnAlien() {
 }
 
 function update() {
-    // Bewegen
     bullets.forEach(b => b.x += 10);
     aliens.forEach(a => a.x -= 3);
 
-    // Kollision Kugel vs Alien
     bullets.forEach((b, bi) => {
         aliens.forEach((a, ai) => {
             if (
@@ -45,7 +51,6 @@ function update() {
         });
     });
 
-    // Kollision Alien vs Spieler → Game Over
     aliens.forEach(a => {
         if (
             player.x < a.x + 20 &&
@@ -57,7 +62,6 @@ function update() {
         }
     });
 
-    // Müll entfernen
     bullets = bullets.filter(b => b.x < canvas.width);
     aliens = aliens.filter(a => a.x > -20);
 }
@@ -65,15 +69,12 @@ function update() {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Spieler
     ctx.fillStyle = "lime";
     ctx.fillRect(player.x, player.y, player.w, player.h);
 
-    // Schüsse
     ctx.fillStyle = "yellow";
     bullets.forEach(b => ctx.fillRect(b.x, b.y, 5, 5));
 
-    // Aliens
     ctx.fillStyle = "red";
     aliens.forEach(a => ctx.fillRect(a.x, a.y, 20, 20));
 }
@@ -90,26 +91,19 @@ function drawGameOver() {
     ctx.font = "24px monospace";
     ctx.fillText("Score: " + score, 330, 230);
 
-    // Zeige den Retry-Button
     document.getElementById("retryBtn").style.display = "inline-block";
 }
 
 function restartGame() {
-    // Variablen zurücksetzen
     player = { x: 50, y: 180, w: 20, h: 20 };
     bullets = [];
     aliens = [];
     score = 0;
     isGameOver = false;
     document.getElementById("score").innerText = score;
-
-    // Button wieder verstecken
     document.getElementById("retryBtn").style.display = "none";
-
-    // Spiel neu starten
     loop();
 }
-
 
 function loop() {
     if (!isGameOver) {
@@ -121,7 +115,6 @@ function loop() {
     }
 }
 
-// Score senden (später mit Backend)
 function submitScore() {
     const name = prompt("Name fürs Leaderboard?");
     if (!name) return;
@@ -131,6 +124,21 @@ function submitScore() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name: name, points: score })
     }).then(() => alert("Gespeichert!"));
+}
+
+// Responsive Canvas
+function resizeCanvas() {
+    const scale = window.devicePixelRatio || 1;
+    canvas.width = canvas.clientWidth * scale;
+    canvas.height = canvas.clientHeight * scale;
+    ctx.setTransform(scale, 0, 0, scale, 0, 0);
+}
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+// Touchsteuerung sichtbar machen
+if ("ontouchstart" in window) {
+    document.getElementById("mobile-controls").style.display = "flex";
 }
 
 setInterval(spawnAlien, 1000);
