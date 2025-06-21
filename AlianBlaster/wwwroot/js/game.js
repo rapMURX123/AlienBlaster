@@ -20,7 +20,6 @@ function moveUp() {
 function moveDown() {
     player.y = Math.min(canvas.height - player.h, player.y + 10);
 }
-
 function shoot() {
     if (isGameOver) return;
     bullets.push({ x: player.x + player.w, y: player.y + player.h / 2 });
@@ -85,11 +84,12 @@ function drawGameOver() {
 
     ctx.fillStyle = "red";
     ctx.font = "48px monospace";
-    ctx.fillText("💀 GAME OVER 💀", 220, 180);
+    ctx.textAlign = "center";
+    ctx.fillText("💀 GAME OVER 💀", canvas.width / 2, canvas.height / 2 - 20);
 
     ctx.fillStyle = "white";
     ctx.font = "24px monospace";
-    ctx.fillText("Score: " + score, 330, 230);
+    ctx.fillText(`Score: ${score}`, canvas.width / 2, canvas.height / 2 + 20);
 
     document.getElementById("retryBtn").style.display = "inline-block";
 }
@@ -115,6 +115,36 @@ function loop() {
     }
 }
 
+function resizeCanvas() {
+    const header = document.querySelector('h1');
+    const hud = document.querySelector(".hud");
+    const mobileControls = document.getElementById("mobile-controls");
+
+    const headerHeight = header ? header.offsetHeight : 0;
+    const hudHeight = hud ? hud.offsetHeight : 0;
+    const mobileHeight = (mobileControls && mobileControls.style.display !== "none") ? mobileControls.offsetHeight : 0;
+
+    const availableHeight = window.innerHeight - headerHeight - hudHeight - mobileHeight;
+
+    canvas.width = window.innerWidth -10;
+    canvas.height = availableHeight - 50;
+
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+}
+
+window.addEventListener("resize", resizeCanvas);
+resizeCanvas();
+
+// Touchsteuerung nur zeigen, wenn Touch unterstützt
+if ("ontouchstart" in window) {
+    document.getElementById("mobile-controls").style.display = "flex";
+}
+
+// Spiel starten
+setInterval(spawnAlien, 1000);
+loop();
+
+// Score senden
 function submitScore() {
     const name = prompt("Name fürs Leaderboard?");
     if (!name) return;
@@ -125,21 +155,3 @@ function submitScore() {
         body: JSON.stringify({ name: name, points: score })
     }).then(() => alert("Gespeichert!"));
 }
-
-// Responsive Canvas
-function resizeCanvas() {
-    const scale = window.devicePixelRatio || 1;
-    canvas.width = canvas.clientWidth * scale;
-    canvas.height = canvas.clientHeight * scale;
-    ctx.setTransform(scale, 0, 0, scale, 0, 0);
-}
-window.addEventListener("resize", resizeCanvas);
-resizeCanvas();
-
-// Touchsteuerung sichtbar machen
-if ("ontouchstart" in window) {
-    document.getElementById("mobile-controls").style.display = "flex";
-}
-
-setInterval(spawnAlien, 1000);
-loop();

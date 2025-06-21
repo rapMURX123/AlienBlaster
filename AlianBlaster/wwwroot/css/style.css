@@ -5,34 +5,32 @@
     text-align: center;
     margin: 0;
     padding: 0;
+    overflow-x: hidden; /* horizontales Scrollen verhindern */
 }
 
 canvas {
+    display: block;
+    margin: 0 auto;
     border: 2px solid lime;
-    margin-top: 20px;
+    /* NICHT width: 100% oder height: auto */
 }
+
 
 .hud {
     margin-top: 10px;
+    font-size: 1.2rem;
 }
 
 .leaderboard {
     margin: 20px auto;
-    width: 400px;
+    width: 90%;
+    max-width: 400px;
     background-color: #111;
     border: 2px solid lime;
     padding: 10px;
     color: lime;
     font-family: monospace;
-}
-
-canvas {
-    width: 100%;
-    max-width: 800px;
-    height: auto;
-    border: 2px solid #fff;
-    display: block;
-    margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .leaderboard-entry {
@@ -40,26 +38,39 @@ canvas {
     justify-content: space-between;
     padding: 5px;
     border-bottom: 1px dashed lime;
+    font-size: 1.1rem;
 }
 
 ul {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
 li {
     margin: 10px 0;
-    font-size: 1.5em;
+    font-size: 1.2rem;
 }
 
 #mobile-controls {
-    display: flex;
+    display: none; /* nur bei mobilen Geräten zeigen (wird per JS sichtbar gemacht) */
     justify-content: center;
     gap: 10px;
     margin-top: 10px;
+    flex-wrap: wrap;
 }
 
 #mobile-controls button {
     font-size: 24px;
     padding: 10px 20px;
+    background-color: lime;
+    color: black;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#mobile-controls button:active {
+    background-color: #0f0;
 }
