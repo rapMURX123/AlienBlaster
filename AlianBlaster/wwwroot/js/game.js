@@ -6,6 +6,9 @@ let bullets = [];
 let aliens = [];
 let score = 0;
 let isGameOver = false;
+let lastTime = 0;
+const desiredFPS = 60; // oder auch 30
+const frameDuration = 1000 / desiredFPS;
 
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp") player.y = Math.max(0, player.y - 10);
@@ -32,7 +35,7 @@ function spawnAlien() {
 
 function update() {
     bullets.forEach(b => b.x += 10);
-    aliens.forEach(a => a.x -= 3);
+    aliens.forEach(a => a.x -= 6);
 
     bullets.forEach((b, bi) => {
         aliens.forEach((a, ai) => {
@@ -105,14 +108,19 @@ function restartGame() {
     loop();
 }
 
-function loop() {
-    if (!isGameOver) {
+function loop(timestamp) {
+    if (isGameOver) {
+        drawGameOver();
+        return;
+    }
+
+    if (timestamp - lastTime >= frameDuration) {
+        lastTime = timestamp;
         update();
         draw();
-        requestAnimationFrame(loop);
-    } else {
-        drawGameOver();
     }
+
+    requestAnimationFrame(loop);
 }
 
 function resizeCanvas() {
