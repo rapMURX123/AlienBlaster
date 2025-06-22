@@ -6,19 +6,71 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <h1>👾 Alien Blaster</h1>
+
+    <h1 id="game-title"
+        data-de="👾 Alien Blaster"
+        data-en="👾 Alien Blaster"
+        data-ko="👾 에일리언 블래스터">
+        👾 Alien Blaster
+    </h1>
+
     <canvas id="game" width="800" height="400"></canvas>
     <div class="hud">
-        <span>Score: <span id="score">0</span></span>
-        <button id="submitBtn" onclick="submitScore()">💾 Score speichern</button>
-        <button id="retryBtn" onclick="restartGame()" style="display: none;">🔁 Nochmal spielen</button>
-        <button id="leaderbordBtn" onclick="window.location.href='leaderboard.html'">🏆 Leaderboard anzeigen</button>
+        <span id="score-label"
+              data-de="Punkte"
+              data-en="Score"
+              data-ko="점수">Punkte</span>:
+        <span id="score">0</span>
+        <button id="submitBtn"
+                data-de="💾 Score speichern"
+                data-en="💾 Save Score"
+                data-ko="💾 점수 저장"
+                onclick="submitScore()">
+            💾 Score speichern
+        </button>
+        <button id="retryBtn"
+                data-de="🔁 Nochmal spielen"
+                data-en="🔁 Play Again"
+                data-ko="🔁 다시 하기"
+                onclick="restartGame()" style="display: none;">
+            🔁 Nochmal spielen
+        </button>
+        <button id="leaderbordBtn"
+                data-de="🏆 Bestenliste anzeigen"
+                data-en="🏆 Show Leaderboard"
+                data-ko="🏆 리더보드 보기"
+                onclick="window.location.href='leaderboard.html'">
+            🏆 Bestenliste anzeigen
+        </button>
+        🌐 Sprache:
+        <select id="language-select">
+            <option value="de">Deutsch</option>
+            <option value="en">English</option>
+            <option value="ko">한국어</option>
+        </select>
     </div>
+
     <div id="mobile-controls" style="display:none;">
-        <button onclick="moveUp()">⬆️</button>
-        <button onclick="moveDown()">⬇️</button>
-        <button onclick="shoot()">🔫</button>
+        <button data-de="⬆️"
+                data-en="⬆️"
+                data-ko="⬆️"
+                onclick="moveUp()">
+            ⬆️
+        </button>
+        <button data-de="⬇️"
+                data-en="⬇️"
+                data-ko="⬇️"
+                onclick="moveDown()">
+            ⬇️
+        </button>
+        <button data-de="🔫"
+                data-en="🔫"
+                data-ko="🔫"
+                onclick="shoot()">
+            🔫
+        </button>
     </div>
+
     <script src="js/game.js"></script>
 </body>
 </html>

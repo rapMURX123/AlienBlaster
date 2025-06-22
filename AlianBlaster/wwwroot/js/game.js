@@ -10,6 +10,20 @@ let lastTime = 0;
 const desiredFPS = 60; // oder auch 30
 const frameDuration = 1000 / desiredFPS;
 
+const languageSelect = document.getElementById('language-select');
+
+languageSelect.addEventListener('change', updateLanguage);
+
+function updateLanguage() {
+    const lang = languageSelect.value;
+    document.querySelectorAll('[data-de]').forEach(el => {
+        el.textContent = el.getAttribute(`data-${lang}`);
+    });
+}
+
+// Set default language on load
+window.addEventListener('DOMContentLoaded', updateLanguage);
+
 document.addEventListener("keydown", (e) => {
     if (e.key === "ArrowUp") player.y = Math.max(0, player.y - 10);
     if (e.key === "ArrowDown") player.y = Math.min(canvas.height - player.h, player.y + 10);
